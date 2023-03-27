@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "docker:build": "docker build . -t seamstress",
+    "docker:run": "docker run -p 3030:3030 seamstress",
+    "docker:start": "npm run docker:build && npm run docker:run"
   },
   "repository": {
     "type": "git",

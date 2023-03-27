@@ -19,6 +19,5 @@ RUN npm run build
 # run on port 3030
 EXPOSE 3030
 
-# TODO: implement a build tool so we can run from dist/ rather than src/
 # run app
 CMD ["node", "dist/server.js"]

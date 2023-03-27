@@ -7,7 +7,7 @@ import { openDBConnection } from './lib/helpers/open-db-connection';
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT || 3030;
+const port: string = process.env.PORT || '3030';
 
 // set up middleware
 app.use(bodyParser.json());
@@ -18,5 +18,5 @@ openDBConnection();
 router(app);
 
 app.listen(port, ()=> {
-console.log(`[Server]: I am running at https://localhost:${port}`);
+    console.log(`[Server]: I am running at https://localhost:${port}`);
 });

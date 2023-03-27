@@ -1,16 +1,19 @@
-import express, {Express, Request, Response} from 'express';
+import express, {Express} from 'express';
 import bodyParser from 'body-parser';
 import { router } from './routes/routes';
+import dotenv from 'dotenv' 
+import { openDBConnection } from './lib/helpers/open-db-connection';
+
+dotenv.config();
 
 const app: Express = express();
-const port = 3030;
+const port = process.env.PORT || 3030;
 
+// set up middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req: Request, res: Response)=>{
-    res.redirect('/health');
-});
+openDBConnection();
 
 router(app);
 

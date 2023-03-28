@@ -13,10 +13,11 @@ const port: string = process.env.PORT || '3030';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// initialise mongo connection
 openDBConnection();
 
 router(app);
 
-app.listen(port, ()=> {
+app.listen(port, () => {
     console.log(`[Server]: I am running at https://localhost:${port}`);
 });

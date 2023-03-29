@@ -1,0 +1,19 @@
+services:
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+  seamstress:
+    build:
+      context: .
+    ports:
+      - 3030:3030
+    environment:
+      - PORT=3030
+      - DATABASE_URI=mongodb://localhost/comments
+    command: npm start

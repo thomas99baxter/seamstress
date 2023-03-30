@@ -1,11 +1,24 @@
 import { Express, Request, Response } from 'express';
+import { Comment } from '../models/comments';
+
+// type Comment = {
+//     author: string,
+//     pageId: string,
+//     text: string,
+//     resolved?: boolean,
+// }
 
 export function commentRoutes(app: Express) {
     // Get all
-    app.get('/comments', (req: Request, res: Response) => {
-        return res.send({
-            status: 200,
-        })
+    app.get('/comments', async (req: Request, res: Response) => {
+        try {
+            const comments: any[] = await Comment.find()
+            return res.json(comments)
+        } catch (err: any) {
+            return res.status(500).json({
+                message: err.message
+            })
+        }
     })
 
     // Get one comment
@@ -17,14 +30,26 @@ export function commentRoutes(app: Express) {
     })
 
     // Create a comment
-    app.post('/comments', (req: Request, res: Response) => {
-        return res.send({
-            status: 200,
+    app.post('/comments', async (req: Request, res: Response) => {
+        const comment = new Comment({
+            author: req.body.author,
+            pageId: req.body.pageId,
+            text: req.body.text,
+            resolved: req.body?.resolved,
         })
+        
+        try {
+            const newComment = await comment.save()
+
+            return res.status(201).json(newComment)
+        } catch (err: any) {
+            return res.status(400).json({
+                message: err.message
+            })
+        }
     })
 
     // Update a comment
-
     app.patch('/comments/:id', (req: Request, res: Response) => {
         return res.send({
             status: 200,

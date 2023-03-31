@@ -19,12 +19,7 @@ export function commentRoutes(app: Express) {
 
     // Get one comment
     app.get('/comments/:id', getCommentById, (req: Request, res: CommentResponse) => {
-        console.log(res.comment);
-        
-        return res.send({
-            status: 200,
-            message: "You provided the id: " + req.params.id
-        })
+        return res.status(500).json(res.comment)
     })
 
     // Create a comment

@@ -3,10 +3,10 @@ import { CommentResponse } from '../../definitions/types/CommentResponse';
 import { Comment } from '../../models/comments';
 
 export async function getCommentById(req: Request, res: CommentResponse, next: Function) {
-    let comment;
+    let comment: Promise<any> | any;
 
     try {
-        comment = Comment.findById(req.params.id);
+        comment = await Comment.findById(req.params.id);
 
         if(!comment || Object.keys(comment).length < 0) {
             return res.status(404).send({

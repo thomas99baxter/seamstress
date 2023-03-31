@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import { CommentResponse } from '../../definitions/types/CommentResponse';
 import { Comment } from '../../models/comments';
 
-export async function getCommentById(req: Request, res: Response, next: Function) {
+export async function getCommentById(req: Request, res: CommentResponse, next: Function) {
     let comment;
 
     try {
@@ -18,7 +19,6 @@ export async function getCommentById(req: Request, res: Response, next: Function
         })
     }
 
-    // @ts-ignore
     res.comment = comment;
     return next();
 }

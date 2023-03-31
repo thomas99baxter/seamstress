@@ -1,5 +1,8 @@
 import { Express, Request, Response } from 'express';
+import { CommentResponse } from '../definitions/types/CommentResponse';
+import { getCommentById } from '../lib/middleware/get-comment-by-id';
 import { Comment } from '../models/comments';
+
 
 export function commentRoutes(app: Express) {
     // Get all
@@ -15,7 +18,9 @@ export function commentRoutes(app: Express) {
     })
 
     // Get one comment
-    app.get('/comments/:id', (req: Request, res: Response) => {
+    app.get('/comments/:id', getCommentById, (req: Request, res: CommentResponse) => {
+        console.log(res.comment);
+        
         return res.send({
             status: 200,
             message: "You provided the id: " + req.params.id

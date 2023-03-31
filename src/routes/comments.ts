@@ -43,14 +43,14 @@ export function commentRoutes(app: Express) {
     })
 
     // Update a comment
-    app.patch('/comments/:id', (req: Request, res: Response) => {
+    app.patch('/comments/:id', getCommentById, (req: Request, res: Response) => {
         return res.send({
             status: 200,
         })
     })
 
     // Delete a comment
-    app.delete('/comments/:id', (req: Request, res: Response) => {
+    app.delete('/comments/:id', getCommentById, (req: Request, res: Response) => {
         return res.send({
             status: 200,
         })

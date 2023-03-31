@@ -1,13 +1,6 @@
 import { Express, Request, Response } from 'express';
 import { Comment } from '../models/comments';
 
-// type Comment = {
-//     author: string,
-//     pageId: string,
-//     text: string,
-//     resolved?: boolean,
-// }
-
 export function commentRoutes(app: Express) {
     // Get all
     app.get('/comments', async (req: Request, res: Response) => {

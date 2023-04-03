@@ -43,7 +43,18 @@ export function commentRoutes(app: Express) {
     })
 
     // Update a comment
-    app.patch('/comments/:id', getCommentById, (req: Request, res: Response) => {
+    app.patch('/comments/:id', getCommentById, (req: Request, res: CommentResponse) => {
+        try {
+            res.comment = {
+                author: req.body?.author || res.comment.author,
+                text: req.body?.text || res.comment.text,
+                pageId: req.body?.pageId || res.comment.pageId,
+                resolved: req.body?.resolved ?? res.comment.resolved,
+            }
+        } catch (error: any) {
+            return res.status(500).json(error.message)
+        }
+
         return res.send({
             status: 200,
         })
@@ -51,9 +62,10 @@ export function commentRoutes(app: Express) {
 
     // Delete a comment
     app.delete('/comments/:id', getCommentById, async (req: Request, res: CommentResponse) => {
-        
+
         try {
-            await res.comment.remove();
+            await Comment.findByIdAndDelete(res.comment.id);
+
             return res.status(200).json({
                 message: "Comment successfully removed."
             })

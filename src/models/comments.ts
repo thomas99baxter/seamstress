@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
-
-const commentSchema = new mongoose.Schema({
+import { Schema, model } from 'mongoose';
+import { IComment } from '../definitions/interfaces/Comment';
+const commentSchema = new Schema<IComment>({
     author: {
         type: String,
         required: true
@@ -25,4 +25,4 @@ const commentSchema = new mongoose.Schema({
     }
 })
 
-export const Comment = mongoose.model('Comment', commentSchema)
+export const Comment = model<IComment>('Comment', commentSchema)

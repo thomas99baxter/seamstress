@@ -50,9 +50,16 @@ export function commentRoutes(app: Express) {
     })
 
     // Delete a comment
-    app.delete('/comments/:id', getCommentById, (req: Request, res: Response) => {
-        return res.send({
-            status: 200,
-        })
+    app.delete('/comments/:id', getCommentById, async (req: Request, res: CommentResponse) => {
+        
+        try {
+            await res.comment.remove();
+            return res.status(200).json({
+                message: "Comment successfully removed."
+            })
+        } catch (err: any) {
+            return res.status(500).json(err.message)
+        }
+
     })
 }

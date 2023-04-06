@@ -1,4 +1,5 @@
 import { Express, Request, Response } from 'express';
+import { IComment } from '../definitions/interfaces/Comment';
 import { CommentResponse } from '../definitions/types/CommentResponse';
 import { getCommentById } from '../lib/middleware/get-comment-by-id';
 import { Comment } from '../models/comments';
@@ -43,21 +44,26 @@ export function commentRoutes(app: Express) {
     })
 
     // Update a comment
-    app.patch('/comments/:id', getCommentById, (req: Request, res: CommentResponse) => {
+    app.patch('/comments/:id', getCommentById, async (req: Request, res: CommentResponse) => {
         try {
-            res.comment = {
+            const patchedComment = {
                 author: req.body?.author || res.comment.author,
                 text: req.body?.text || res.comment.text,
                 pageId: req.body?.pageId || res.comment.pageId,
                 resolved: req.body?.resolved ?? res.comment.resolved,
             }
+
+            const filter = { _id: req.params.id}
+            
+            const updatedComment = await Comment.findOneAndUpdate(filter, patchedComment);
+
+            return res.status(204).send({
+                message: "Successfully updated comment",
+                updatedComment,
+            })
         } catch (error: any) {
             return res.status(500).json(error.message)
         }
-
-        return res.send({
-            status: 200,
-        })
     })
 
     // Delete a comment
